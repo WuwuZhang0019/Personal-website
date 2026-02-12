@@ -1,5 +1,5 @@
 <template>
-  <Header />
+  <Header :current-view="currentView" @navigate="navigateTo" />
   <main class="main-content">
     <Home v-if="currentView === 'home'" @navigate="navigateTo" />
     <Tools v-else-if="currentView === 'tools'" @navigate="navigateTo" />
