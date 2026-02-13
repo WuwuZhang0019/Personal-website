@@ -2,8 +2,10 @@
   <div class="home">
     <section class="hero">
       <div class="hero-content">
-        <h1 class="hero-title">欢迎来到我的工具箱</h1>
-        <p class="hero-subtitle">这里收集了我开发的各种实用小工具，全部免费下载使用</p>
+        <h1 class="hero-title">
+          欢迎来到我的<br>建筑电气设计工具箱
+        </h1>
+        <p class="hero-subtitle">这里收集了我开发的各种实用CAD小工具，全部免费下载使用</p>
         <button class="btn hero-btn" @click="$emit('navigate', 'tools')">
           🚀 下载
         </button>
