@@ -1,6 +1,6 @@
 <template>
   <div class="tool-card">
-    <div class="tool-icon">{{ tool.icon }}</div>
+    <img :src="tool.iconUrl || '/image/home.png'" alt="工具图标" class="tool-icon">
     <h3 class="tool-name">{{ tool.name }}</h3>
     <p class="tool-desc">{{ tool.description }}</p>
     <div class="tool-meta">
@@ -48,7 +48,9 @@ export default {
 }
 
 .tool-icon {
-  font-size: 48px;
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
   margin-bottom: 16px;
 }
 

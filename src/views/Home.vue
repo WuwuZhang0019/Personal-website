@@ -10,25 +10,38 @@
       </div>
     </section>
     
-    <section class="features">
+    <section class="tools-intro">
       <div class="container">
-        <h2 class="section-title">为什么选择我的工具？</h2>
-        <div class="features-grid">
-          <div class="feature-item">
-            <span class="feature-icon">💰</span>
-            <h3>完全免费</h3>
-            <p>所有工具完全免费，无任何隐藏收费</p>
-          </div>
-          <div class="feature-item">
-            <span class="feature-icon">🔒</span>
-            <h3>安全可靠</h3>
-            <p>开源代码，无病毒无广告，放心使用</p>
-          </div>
-          <div class="feature-item">
-            <span class="feature-icon">⚡</span>
-            <h3>轻量高效</h3>
-            <p>体积小巧，运行流畅，不占系统资源</p>
-          </div>
+        <h2 class="section-title">我的工具介绍</h2>
+        <div class="tools-grid">
+          <template v-for="tool in tools" :key="tool.id">
+            <!-- 一级菜单 -->
+            <div class="tool-item" :class="{ clickable: tool.subtools && tool.subtools.length > 0 }" @click="tool.subtools && tool.subtools.length > 0 ? toggleSubmenu(tool.id) : null">
+              <img src="/image/home.png" alt="工具图标" class="tool-icon-img">
+              <div class="tool-info">
+                <h3>{{ tool.name }}</h3>
+                <p>{{ tool.description }}</p>
+              </div>
+              <button class="btn download-btn" @click.stop="$emit('navigate', 'tools')" v-if="tool.downloadUrl">⬇ 下载</button>
+              <div class="submenu-placeholder" v-if="!tool.subtools || tool.subtools.length === 0"></div>
+              <div class="submenu-arrow" :class="{ active: openSubmenu === tool.id }" v-if="tool.subtools && tool.subtools.length > 0">▼</div>
+            </div>
+            <!-- 二级菜单容器 -->
+            <div class="submenu" v-if="openSubmenu === tool.id && tool.subtools && tool.subtools.length > 0">
+              <div class="submenu-grid">
+                <div class="tool-item sub-tool-item" v-for="(subtool, index) in tool.subtools" :key="'sub-' + index">
+                  <img src="/image/home.png" alt="工具图标" class="tool-icon-img">
+                  <div class="tool-info">
+                    <h3>{{ subtool.name }}</h3>
+                    <p>{{ subtool.description }}</p>
+                  </div>
+                  <button class="btn demo-btn" @click.stop="showDemo(subtool)">
+                    🎬 看演示
+                  </button>
+                </div>
+              </div>
+            </div>
+          </template>
         </div>
       </div>
     </section>
@@ -38,13 +51,74 @@
         <p class="cta-text">有问题或建议？欢迎联系我！</p>
       </div>
     </section>
+
+    <VideoModal 
+      :show="showModal" 
+      :title="currentTool?.name || '工具演示'"
+      :videoUrl="currentTool?.videoUrl || ''"
+      @close="closeModal"
+    />
   </div>
 </template>
 
 <script>
+import VideoModal from '../components/VideoModal.vue'
+
 export default {
   name: 'Home',
-  emits: ['navigate']
+  components: {
+    VideoModal
+  },
+  emits: ['navigate'],
+  data() {
+    return {
+      showModal: false,
+      currentTool: null,
+      openSubmenu: null,
+      tools: [
+        {
+          id: 1,
+          name: '张裕锋工具集',
+          description: 'CAD快速瘦身、布置地面疏散指示、底图处理等9个实用CAD工具集合',
+          downloadUrl: 'https://www.yu123.cn/tools',
+          videoUrl: '',
+          subtools: [
+            { name: '01 CAD快速瘦身', description: '快速减小CAD文件体积', videoUrl: '' },
+            { name: '02 布置地面疏散指示', description: '自动布置地面疏散指示标志', videoUrl: '/videos/02.mp4' },
+            { name: '03 底图处理', description: '处理CAD底图图层和显示', videoUrl: '/videos/03.mp4' },
+            { name: '04 图号文字递增', description: '自动递增图号和文字编号', videoUrl: '/videos/04.mp4' },
+            { name: '05 图片去黑框', description: '去除图片黑色边框', videoUrl: '/videos/05.mp4' },
+            { name: '06 文字复制', description: '批量复制文字内容', videoUrl: '/videos/06.mp4' },
+            { name: '07 图框自动编号', description: '自动为图框编号排序', videoUrl: '/videos/07.mp4' },
+            { name: '08 0层置为当前层', description: '将0层设为当前图层', videoUrl: '/videos/08.mp4' },
+            { name: '09 开图自动选字体', description: '打开图纸自动选择字体', videoUrl: '/videos/09.mp4' }
+          ]
+        },
+        {
+          id: 2,
+          name: 'PDSD系统图绘制工具',
+          description: '快速绘制PDSD系统图',
+          downloadUrl: 'https://www.yu123.cn/pdsd'
+        }
+      ]
+    }
+  },
+  methods: {
+    showDemo(tool) {
+      this.currentTool = tool
+      this.showModal = true
+    },
+    closeModal() {
+      this.showModal = false
+    },
+    toggleSubmenu(toolId) {
+      if (this.openSubmenu === toolId) {
+        this.openSubmenu = null
+      } else {
+        this.openSubmenu = toolId
+      }
+    }
+  }
 }
 </script>
 
@@ -131,6 +205,118 @@ export default {
   font-size: 14px;
 }
 
+.tools-intro {
+  padding: 60px 0;
+}
+
+.tools-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.tool-item {
+  background-color: var(--card-bg);
+  padding: 24px;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  transition: transform 0.3s;
+  position: relative;
+}
+
+.tool-item.clickable:hover {
+  transform: translateX(4px);
+  cursor: pointer;
+}
+
+.tool-item:not(.clickable):hover {
+  transform: none;
+}
+
+.sub-tool-item {
+  margin-left: 40px;
+  width: calc(100% - 40px);
+  background-color: var(--bg-color);
+}
+
+.tool-item .tool-icon {
+  font-size: 40px;
+  flex-shrink: 0;
+}
+
+.tool-icon-img {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.tool-info {
+  flex: 1;
+}
+
+.tool-info h3 {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-color);
+  margin-bottom: 8px;
+}
+
+.tool-info p {
+  color: var(--text-secondary);
+  font-size: 14px;
+}
+
+.demo-btn {
+  flex-shrink: 0;
+  padding: 10px 20px;
+  font-size: 14px;
+}
+
+.download-btn {
+  flex-shrink: 0;
+  padding: 10px 20px;
+  font-size: 14px;
+  text-decoration: none;
+}
+
+.submenu-arrow {
+  flex-shrink: 0;
+  width: 20px;
+  text-align: center;
+  font-size: 12px;
+  color: var(--text-secondary);
+  transition: transform 0.3s;
+  cursor: pointer;
+}
+
+.submenu-placeholder {
+  flex-shrink: 0;
+  width: 20px;
+}
+
+.submenu-arrow.active {
+  transform: rotate(180deg);
+}
+
+.submenu {
+  width: 100%;
+}
+
+.submenu-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.sub-tool-item {
+  background-color: var(--bg-color);
+}
+
 .cta {
   background-color: var(--card-bg);
   padding: 40px 0;
@@ -154,6 +340,19 @@ export default {
   .features-grid {
     grid-template-columns: 1fr;
     gap: 20px;
+  }
+
+  .tools-grid {
+    gap: 16px;
+  }
+
+  .tool-item {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .demo-btn {
+    width: 100%;
   }
 }
 </style>
