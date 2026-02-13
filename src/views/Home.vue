@@ -5,7 +5,7 @@
         <h1 class="hero-title">欢迎来到我的工具箱</h1>
         <p class="hero-subtitle">这里收集了我开发的各种实用小工具，全部免费下载使用</p>
         <button class="btn hero-btn" @click="$emit('navigate', 'tools')">
-          🚀 浏览工具
+          🚀 下载
         </button>
       </div>
     </section>
@@ -22,7 +22,10 @@
                 <h3>{{ tool.name }}</h3>
                 <p>{{ tool.description }}</p>
               </div>
-              <button class="btn download-btn" @click.stop="$emit('navigate', 'tools')" v-if="tool.downloadUrl">⬇ 下载</button>
+              <div class="tool-actions">
+                <button class="btn download-btn" @click.stop="$emit('navigate', 'tools')" v-if="tool.downloadUrl">⬇ 下载</button>
+                <button class="btn demo-btn" @click.stop="showDemo(tool)" v-if="tool.videoUrl">🎬 看演示</button>
+              </div>
               <div class="submenu-placeholder" v-if="!tool.subtools || tool.subtools.length === 0"></div>
               <div class="submenu-arrow" :class="{ active: openSubmenu === tool.id }" v-if="tool.subtools && tool.subtools.length > 0">▼</div>
             </div>
@@ -80,7 +83,7 @@ export default {
           id: 1,
           name: '张裕锋工具集',
           description: 'CAD快速瘦身、布置地面疏散指示、底图处理等9个实用CAD工具集合',
-          downloadUrl: 'https://www.yu123.cn/tools',
+          downloadUrl: './downloads/张裕锋工具集安装包.zip',
           videoUrl: '',
           subtools: [
             { name: '01 CAD快速瘦身', description: '快速减小CAD文件体积', videoUrl: '' },
@@ -98,7 +101,8 @@ export default {
           id: 2,
           name: 'PDSD系统图绘制工具',
           description: '快速绘制PDSD系统图',
-          downloadUrl: 'https://www.yu123.cn/pdsd'
+          downloadUrl: './downloads/PDSD系统图绘制工具安装包.zip',
+          videoUrl: '/videos/PDSD.mp4'
         }
       ]
     }
@@ -274,6 +278,12 @@ export default {
   flex-shrink: 0;
   padding: 10px 20px;
   font-size: 14px;
+}
+
+.tool-actions {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
 }
 
 .download-btn {

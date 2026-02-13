@@ -4,7 +4,7 @@
     <h3 class="tool-name">{{ tool.name }}</h3>
     <p class="tool-desc">{{ tool.description }}</p>
     <div class="tool-meta">
-      <span class="tool-version">v{{ tool.version }}</span>
+      <span class="tool-version">{{ tool.version }}</span>
       <span class="tool-size">{{ tool.size }}</span>
     </div>
     <a 
