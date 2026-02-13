@@ -19,7 +19,7 @@
           <template v-for="tool in tools" :key="tool.id">
             <!-- 一级菜单 -->
             <div class="tool-item" :class="{ clickable: tool.subtools && tool.subtools.length > 0 }" @click="tool.subtools && tool.subtools.length > 0 ? toggleSubmenu(tool.id) : null">
-              <img src="/image/home.png" alt="工具图标" class="tool-icon-img">
+              <img :src="`${baseUrl}image/home.png`" alt="工具图标" class="tool-icon-img">
               <div class="tool-info">
                 <h3>{{ tool.name }}</h3>
                 <p>{{ tool.description }}</p>
@@ -35,7 +35,7 @@
             <div class="submenu" v-if="openSubmenu === tool.id && tool.subtools && tool.subtools.length > 0">
               <div class="submenu-grid">
                 <div class="tool-item sub-tool-item" v-for="(subtool, index) in tool.subtools" :key="'sub-' + index">
-                  <img src="/image/home.png" alt="工具图标" class="tool-icon-img">
+                  <img :src="`${baseUrl}image/home.png`" alt="工具图标" class="tool-icon-img">
                   <div class="tool-info">
                     <h3>{{ subtool.name }}</h3>
                     <p>{{ subtool.description }}</p>
@@ -69,6 +69,8 @@
 <script>
 import VideoModal from '../components/VideoModal.vue'
 
+const baseUrl = import.meta.env.BASE_URL
+
 export default {
   name: 'Home',
   components: {
@@ -89,14 +91,14 @@ export default {
           videoUrl: '',
           subtools: [
             { name: '01 CAD快速瘦身', description: '快速减小CAD文件体积', videoUrl: '' },
-            { name: '02 布置地面疏散指示', description: '自动布置地面疏散指示标志', videoUrl: '/videos/02.mp4' },
-            { name: '03 底图处理', description: '处理CAD底图图层和显示', videoUrl: '/videos/03.mp4' },
-            { name: '04 图号文字递增', description: '自动递增图号和文字编号', videoUrl: '/videos/04.mp4' },
-            { name: '05 图片去黑框', description: '去除图片黑色边框', videoUrl: '/videos/05.mp4' },
-            { name: '06 文字复制', description: '批量复制文字内容', videoUrl: '/videos/06.mp4' },
-            { name: '07 图框自动编号', description: '自动为图框编号排序', videoUrl: '/videos/07.mp4' },
-            { name: '08 0层置为当前层', description: '将0层设为当前图层', videoUrl: '/videos/08.mp4' },
-            { name: '09 开图自动选字体', description: '打开图纸自动选择字体', videoUrl: '/videos/09.mp4' }
+            { name: '02 布置地面疏散指示', description: '自动布置地面疏散指示标志', videoUrl: `${baseUrl}videos/02.mp4` },
+            { name: '03 底图处理', description: '处理CAD底图图层和显示', videoUrl: `${baseUrl}videos/03.mp4` },
+            { name: '04 图号文字递增', description: '自动递增图号和文字编号', videoUrl: `${baseUrl}videos/04.mp4` },
+            { name: '05 图片去黑框', description: '去除图片黑色边框', videoUrl: `${baseUrl}videos/05.mp4` },
+            { name: '06 文字复制', description: '批量复制文字内容', videoUrl: `${baseUrl}videos/06.mp4` },
+            { name: '07 图框自动编号', description: '自动为图框编号排序', videoUrl: `${baseUrl}videos/07.mp4` },
+            { name: '08 0层置为当前层', description: '将0层设为当前图层', videoUrl: `${baseUrl}videos/08.mp4` },
+            { name: '09 开图自动选字体', description: '打开图纸自动选择字体', videoUrl: `${baseUrl}videos/09.mp4` }
           ]
         },
         {
@@ -104,7 +106,7 @@ export default {
           name: 'PDSD系统图绘制工具',
           description: '快速绘制PDSD系统图',
           downloadUrl: './downloads/PDSD系统图绘制工具安装包.zip',
-          videoUrl: '/videos/PDSD.mp4'
+          videoUrl: `${baseUrl}videos/PDSD.mp4`
         }
       ]
     }

@@ -1,6 +1,6 @@
 <template>
   <div class="tool-card">
-    <img :src="tool.iconUrl || '/image/home.png'" alt="工具图标" class="tool-icon">
+    <img :src="tool.iconUrl || `${baseUrl}image/home.png`" alt="工具图标" class="tool-icon">
     <h3 class="tool-name">{{ tool.name }}</h3>
     <p class="tool-desc">{{ tool.description }}</p>
     <div class="tool-meta">
@@ -18,6 +18,8 @@
 </template>
 
 <script>
+const baseUrl = import.meta.env.BASE_URL
+
 export default {
   name: 'ToolCard',
   props: {
