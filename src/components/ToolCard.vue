@@ -27,6 +27,11 @@ export default {
       type: Object,
       required: true
     }
+  },
+  data() {
+    return {
+      baseUrl: import.meta.env.BASE_URL
+    }
   }
 }
 </script>

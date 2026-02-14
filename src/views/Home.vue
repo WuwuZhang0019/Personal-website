@@ -79,6 +79,7 @@ export default {
   emits: ['navigate'],
   data() {
     return {
+      baseUrl: import.meta.env.BASE_URL,
       showModal: false,
       currentTool: null,
       openSubmenu: null,
